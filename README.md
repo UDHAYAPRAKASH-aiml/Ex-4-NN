@@ -1,6 +1,6 @@
 
-<H3>udhaya praksh v</H3>
-<H3>212224240177.</H3>
+<H3>ENTER YOUR NAME</H3>udhaya prakash v
+<H3>ENTER YOUR REGISTER NO.</H3>212224240177
 <H3>EX. NO.4</H3>
 <H3>DATE:</H3>30/09/2025
 <H1 ALIGN =CENTER>Implementation of MLP with Backpropagation for Multiclassification</H1>
