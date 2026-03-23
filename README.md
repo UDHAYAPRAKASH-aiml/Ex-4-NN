@@ -122,19 +122,13 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
-```
-```
 url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data'
 arr = ['SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth', 'Species']
 df = pd.read_csv(url, names=arr)
 print(df.head())
-```
-```
 a = df.iloc[:, 0:4]
 b = df.select_dtypes(include=[object])
 b = df.iloc[:,4:5]
-```
-```
 training_a, testing_a, training_b, testing_b = train_test_split(a, b, test_size = 0.25)
 myscaler = StandardScaler()
 myscaler.fit(training_a)
@@ -143,13 +137,9 @@ testing_a = myscaler.transform(testing_a)
 m1 = MLPClassifier(hidden_layer_sizes=(12, 13, 14), activation='relu', solver='adam', max_iter=2500)
 m1.fit(training_a, training_b.values.ravel())
 predicted_values = m1.predict(testing_a)
-```
-```
 print(confusion_matrix(testing_b,predicted_values))
-```
-```
 print(classification_report(testing_b,predicted_values))
-```
+
 <H3>Output:</H3>
 
 <img width="618" height="141" alt="321330295-49e2e478-2bad-4900-87fc-deeb30f76053" src="https://github.com/user-attachments/assets/b4ae013c-4802-4f5b-b9a1-c718f44131b9" />
