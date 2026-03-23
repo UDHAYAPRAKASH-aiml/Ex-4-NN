@@ -1,8 +1,4 @@
 
-<H3>ENTER YOUR NAME</H3>udhaya prakash v
-<H3>ENTER YOUR REGISTER NO.</H3>212224240177
-<H3>EX. NO.4</H3>
-
 <H1 ALIGN =CENTER>Implementation of MLP with Backpropagation for Multiclassification</H1>
 <H3>Aim:</H3>
 To implement a Multilayer Perceptron for Multi classification
@@ -114,85 +110,74 @@ Normalize our dataset.
 
 8. Finally, call the functions confusion_matrix(), and the classification_report() in order to evaluate the performance of our classifier.
 
-<H3>Program:</H3> 
+<H3>Program :</H3> 
+
 ```
 import pandas as pd
+import sklearn
+from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.neural_network import MLPClassifier
-from sklearn.metrics import classification_report
-from sklearn.metrics import confusion_matrix
-url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data'
-arr = ['SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth', 'Species']
-df = pd.read_csv(url, names=arr)
-print(df.head())
-a = df.iloc[:, 0:4]
-b = df.select_dtypes(include=[object])
-b = df.iloc[:,4:5]
-training_a, testing_a, training_b, testing_b = train_test_split(a, b, test_size = 0.25)
-myscaler = StandardScaler()
-myscaler.fit(training_a)
-training_a = myscaler.transform(training_a)
-testing_a = myscaler.transform(testing_a)
-m1 = MLPClassifier(hidden_layer_sizes=(12, 13, 14), activation='relu', solver='adam', max_iter=2500)
-m1.fit(training_a, training_b.values.ravel())
-predicted_values = m1.predict(testing_a)
-print(confusion_matrix(testing_b,predicted_values))
-print(classification_report(testing_b,predicted_values))
+from sklearn.metrics import classification_report, confusion_matrix
+import seaborn as sns
 
-<H3>Output:</H3>
+# Load the Penguins dataset
+penguins = sns.load_dataset("penguins").dropna()
 
-<img width="618" height="141" alt="321330295-49e2e478-2bad-4900-87fc-deeb30f76053" src="https://github.com/user-attachments/assets/b4ae013c-4802-4f5b-b9a1-c718f44131b9" />
+# Prepare features (X) and labels (y)
+X = penguins[['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm', 'body_mass_g']]
+y = penguins['species']   # <-- keep as Series first
 
+# Display sample data
+print("Features (first 5 rows):")
+print(X.head())
+print("\nLabels (first 5 rows):")
+print(y.head())
 
-<img width="129" height="87" alt="321330889-41b53b80-7b2c-49ff-bdc9-7ab2d15ae2df" src="https://github.com/user-attachments/assets/b06e135a-e07b-4da4-a97f-3a05e81787db" />
+# Show unique classes
+print("\nUnique classes in the dataset:")
+print(y.unique())
 
-<img width="547" height="211" alt="321331022-6bb4fc0b-3de4-4ff8-81f0-474244089603" src="https://github.com/user-attachments/assets/8b8d588c-c02d-4f75-8cb6-c22f2d4a9dbf" />
+# Convert categorical labels to numerical values
+le = preprocessing.LabelEncoder()
+y = le.fit_transform(y)   # <-- now y is a NumPy array of length 333
+print("\nEncoded labels (first 5 rows):")
+print(y[:5])
 
-<H3>PROGRAM</H3>
-```
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn.neural_network import MLPClassifier
-from sklearn.metrics import classification_report
-from sklearn.metrics import confusion_matrix
-```
-```
-url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data'
-arr = ['SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth', 'Species']
-df = pd.read_csv(url, names=arr)
-print(df.head())
-```
-```
-a = df.iloc[:, 0:4]
-b = df.select_dtypes(include=[object])
-b = df.iloc[:,4:5]
-```
-```
-training_a, testing_a, training_b, testing_b = train_test_split(a, b, test_size = 0.25)
-myscaler = StandardScaler()
-myscaler.fit(training_a)
-training_a = myscaler.transform(training_a)
-testing_a = myscaler.transform(testing_a)
-m1 = MLPClassifier(hidden_layer_sizes=(12, 13, 14), activation='relu', solver='adam', max_iter=2500)
-m1.fit(training_a, training_b.values.ravel())
-predicted_values = m1.predict(testing_a)
-```
-```
-print(confusion_matrix(testing_b,predicted_values))
-```
-```
-print(classification_report(testing_b,predicted_values))
-```
-<H3>OUTPUT:</H3>
+# Split data into training and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20)
 
-<img width="636" height="147" alt="321332165-8858d11b-53f2-40fb-aab5-98a97596691d" src="https://github.com/user-attachments/assets/23d7c0e1-acda-4c93-a666-62419ab16d49" />
+# Standardize features
+scaler = StandardScaler()
+scaler.fit(X_train)
+X_train = scaler.transform(X_train)
+X_test = scaler.transform(X_test)
+
+# Create and train Multi-layer Perceptron classifier
+mlp = MLPClassifier(hidden_layer_sizes=(10, 10, 10), max_iter=1000)
+mlp.fit(X_train, y_train)
+
+# Make predictions
+predictions = mlp.predict(X_test)
+print("\nModel predictions:")
+print(predictions)
+
+# Evaluate model performance
+print("\nConfusion Matrix:")
+print(confusion_matrix(y_test, predictions))
+print("\nClassification Report:")
+print(classification_report(y_test, predictions))
+```
 
 
-<img width="132" height="81" alt="321332270-35946273-6eda-4dbc-9935-541953788c57" src="https://github.com/user-attachments/assets/82cd0f4f-17fb-40f2-b929-018eab1e8722" />
 
-<img width="544" height="208" alt="321332426-51ce4d18-d2e6-4fa4-9d29-ec9dcc9eec6f" src="https://github.com/user-attachments/assets/9998c3c3-2830-4a94-a4c6-350f9e25bc62" />
+<H3>Output :</H3>
 
-<H3>Result:</H3>
+<img width="639" height="422" alt="image" src="https://github.com/user-attachments/assets/86f234c3-ab11-4cea-a691-faca775c213c" />
+
+<img width="595" height="279" alt="image" src="https://github.com/user-attachments/assets/d774c22a-0d0d-44b2-a0f7-ceeceb5caec8" />
+
+
+<H3>Result :</H3>
 Thus, MLP is implemented for multi-classification using python.
